@@ -1,0 +1,51 @@
+﻿/*
+给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+
+注意：答案中不可以包含重复的三元组。
+
+例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+*/
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> rst = new ArrayList<>();
+        
+        Arrays.sort(nums);
+        int l = 0, r = 0;
+        for(int i = 0; i < nums.length; i++)
+        {
+            // i == 0 wei真时保证后面nums[i-1]不会执行防止越界
+            if( i == 0 || nums[i] > nums[i-1])
+            {
+                l = i+1;            //左下标 从i+1开始
+                r = nums.length-1;  //右下标 从最后一个开始
+                while(l < r)
+                {
+                    if(-nums[i] == nums[l] + nums[r])
+                    {
+                        List<Integer> list = new ArrayList<>();
+                        list.add(nums[i]);
+                        list.add(nums[l]);
+                        list.add(nums[r]);
+                        rst.add(list);
+                        l++;r--;
+                        //越过相等的数字
+                        while(l < r && nums[l] == nums[l-1])    l++;    
+                        while(l < r && nums[r+1] == nums[r])    r--;
+                    }
+                    //-nums[i] < nums[l] + nums[r] 0 < nums[i] + nums[l] + nums[r]
+                    //即需要更小一点的数值加进来，因为从小到大排序，所以右边数字更大，所以由下标左移
+                    else if(-nums[i] < nums[l] + nums[r])   r--;
+                    else    l++;
+                }
+            }
+        }
+        return rst;
+    }
+}

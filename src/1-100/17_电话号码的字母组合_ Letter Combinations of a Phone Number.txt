@@ -1,0 +1,60 @@
+﻿/*
+给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
+
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+
+2:abc
+3:def
+4:ghi
+4:jkl
+6:mno
+7:pqrs
+8:tuv
+9:wxyz
+
+示例:
+
+输入："23"
+输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+*/
+
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> rst = new ArrayList<>();
+        Arrays.sort(nums);
+        int l = 0, r = 0;
+        for(int j = 0; j < nums.length - 3; j++)
+        {
+                for(int i = j + 1; i < nums.length - 2; i++)
+                {
+                    l = i+1;
+                    r = nums.length-1;
+                    while(l < r)
+                    {
+                        if(target < nums[j] + nums[i] + nums[l] + nums[r])
+                        {
+                            r--;
+                            continue;
+                        }
+                        if(target == nums[j] + nums[i] + nums[l] + nums[r])
+                        {
+                            List<Integer> list = new ArrayList<>();
+                            list.add(nums[j]);
+                            list.add(nums[i]);
+                            list.add(nums[l]);
+                            list.add(nums[r]);
+                            rst.add(list);
+                        }
+                        l++;
+                        while(l < r && nums[l] == nums[l-1])
+                            l++;
+                    }
+                    while(nums[i] == nums[i+1] && i < nums.length-2)
+                        i++; 
+                }
+                while(nums[j]==nums[j+1] && j<nums.length-3 )
+                    j++;
+        }
+        return rst;
+    }
+}
