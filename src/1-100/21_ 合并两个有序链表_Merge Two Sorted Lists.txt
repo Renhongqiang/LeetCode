@@ -17,34 +17,14 @@
  */
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode rst = new ListNode(0);
-        ListNode head, n1, n2;
-        head = rst;
-        n1 = l1;
-        n2 = l2;
-        while(n1 != null && n2 != null)
-        {
-            if(n1.val < n2.val)
-            {
-                rst.next = n1;
-                rst = rst.next;
-                n1 = n1.next;
-            }
-            else
-            {
-                rst.next = n2;
-                rst = rst.next;
-                n2 = n2.next;
-            }
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        if(l1.val < l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
         }
-        if(n1 != null)
-        {
-            rst.next = n1;
-        }
-        else
-        {
-            rst.next = n2;
-        }
-        return head.next;
     }
 }
